@@ -8,9 +8,9 @@ import {
 	StyledUserInfo
 } from './styles';
 
-const UserInfo = ({ users, setUsers }) => {
+const UserInfo = ({ users, setUsers,  setUserToEdit }) => {
 	// console.log('users desde infoUser', users);
-
+	// const [confirmDelete, setConfirmDelete] = useState(false);
 	return (
 		<div>
 			{users.map(user => (
@@ -30,13 +30,18 @@ const UserInfo = ({ users, setUsers }) => {
 							<StyledIcon src='/public/assets/icons/eye_icon.svg' alt='' />
 						</i>
 						<i>
-							<StyledIcon src='/public/assets/icons/edit_icon.svg' alt='' />
+							<StyledIcon
+								src='/public/assets/icons/edit_icon.svg'
+								alt=''
+								onClick={() => setUserToEdit(user)}
+							/>
 						</i>
 						<i>
 							<StyledIcon
 								src='/public/assets/icons/delete_icon.svg'
 								alt=''
-								onClick={() => deleteUser(users.UserId, setUsers)}
+								onClick={() => deleteUser(user.UserId, setUsers)}
+								// onClick={() => handleDeleteClick()}
 							/>
 						</i>
 					</StyledIcons>
@@ -46,12 +51,16 @@ const UserInfo = ({ users, setUsers }) => {
 	);
 };
 
+// const handleDeleteClick = setConfirmDelete => {
+// 	setConfirmDelete(true);
+// };
+
 const deleteUser = async (id, setUsers) => {
 	try {
 		const usersUpdated = await deleteData(`${URLS.API_USERS}/${id}`);
 		setUsers(usersUpdated);
 	} catch (error) {
-		console.log('error al eliminar usuario', error);
+		console.log('error al eliminar el usuario', error);
 	}
 };
 
