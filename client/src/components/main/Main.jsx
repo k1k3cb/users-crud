@@ -1,40 +1,34 @@
 import { useEffect, useState } from 'react';
-import { v4 } from 'uuid';
-import { URL } from '../../constants/api';
-import Form from '../form/Form';
-import UserTable from '../user-table/UserTable';
+import { URLS } from '../../constants/urls';
+import { getData } from '../../utils/api';
+
+import UserInfo from '../user-info/UserInfo';
 import { StyledContainer } from './styles';
+import FormCreateUser from '../form-create-user/FormCreateUser';
 
 const Main = () => {
-	const [users, setUsers] = useState([
-		{
-			id: v4(),
-			name: '',
-			email: '',
-			image: ''
-		}
-	]);
+	const [users, setUsers] = useState([]);
 
 	useEffect(() => {
-		fetchData(setUsers);
+		getAllUsers(setUsers);
 	}, []);
+
+	if (users.length === 0) <h1>LOADING...</h1>
 
 	return (
 		<StyledContainer>
-			<Form />
-			<UserTable users={users} />
+			<FormCreateUser setUsers={setUsers} />
+			<UserInfo users={users} setUsers={setUsers} />
 		</StyledContainer>
 	);
 };
 
-const fetchData = async setUsers => {
+const getAllUsers = async setUsers => {
 	try {
-		const response = await fetch(URL.USERS.ALL_USERS.url);
-		const data = await response.json();
-		console.log('data:', data);
-		setUsers(data);
-	} catch (error) {
-		console.error('Error fetching data:', error);
+		const allUsers = await getData(URLS.API_USERS);
+		setUsers(allUsers);
+	} catch (err) {
+		console.error('Error fetching data:', err);
 	}
 };
 

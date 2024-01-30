@@ -16,7 +16,7 @@ usersController.getAllUsers = async (req, res) => {
 };
 
 usersController.createUser = async (req, res) => {
-  const newUser = { id: v4(), name: req.body.name, email: req.body.email };
+  const newUser = { userId: v4(),...req.body };
   try {
     //* leer archivo
     const fileData = await fsPromises.readFile(filePath);
@@ -33,24 +33,25 @@ usersController.createUser = async (req, res) => {
 
 usersController.updateUser = async (req, res) => {
   const { id } = req.params;
-  //   console.log('id: ' + id);
+  
   try {
     //* leer archivo
     const fileData = await fsPromises.readFile(filePath);
     const users = JSON.parse(fileData);
 
     //* buscar usuario
-    const userIndex = users.findIndex((user) => user.userId === id);
-    // console.log('userIndex', userIndex);
+    const userToUpdate = users.find((user) => user.userId === id);
+   
 
     //* modificar usuario
-    users[userIndex].name = 'Nombre modificado con Patch';
+    userToUpdate.name = req.body.name;
+    userToUpdate.email = req.body.email;
 
     //* escribir archivo
     await fsPromises.writeFile(filePath, JSON.stringify(users));
 
     //* envío archivo
-    res.send(users[userIndex]);
+    res.send(users);
   } catch (error) {
     return res.send('error: ' + error);
   }
@@ -73,9 +74,9 @@ usersController.deleteUser = async (req, res) => {
     await fsPromises.writeFile(filePath, JSON.stringify(users));
 
     //* envío archivo
-    res.send(users[userIndex]);
+    res.send(users);
 
-    res.send('User deleted successfully');
+    
   } catch (error) {
     return res.send('error: ' + error);
   }
