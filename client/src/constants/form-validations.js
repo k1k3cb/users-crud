@@ -6,12 +6,17 @@ const messages = {
 	number: {
 		required: 'El campo es obligatorio',
 		wrong: 'El campo no es valido, solo se admiten números'
+	},
+	email: {
+		required: 'El campo es obligatorio',
+		wrong: 'El formato del email no es valido'
 	}
 };
 
 const pattern = {
 	onlyLetters: /[a-z]+$/,
-	onlyNumbers: /^\d+$/
+	onlyNumbers: /^\d+$/,
+	email: /^[a-zA-Z0-9_]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,6}$/
 };
 
 export const FORM_VALIDATIONS = {
@@ -27,6 +32,13 @@ export const FORM_VALIDATIONS = {
 		pattern: {
 			value: pattern.onlyNumbers,
 			message: messages.number.wrong
+		}
+	},
+	EMAIL: {
+		required: messages.email.required,
+		pattern: {
+			value: pattern.email,
+			message: messages.email.wrong
 		}
 	}
 };

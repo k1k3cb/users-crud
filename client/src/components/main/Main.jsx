@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 import { URL } from '../../constants/api';
 import Form from '../form/Form';
+import UserTable from '../user-table/UserTable';
 import { StyledContainer } from './styles';
 
 const Main = () => {
@@ -20,19 +21,8 @@ const Main = () => {
 
 	return (
 		<StyledContainer>
-			<div>
-				<Form />
-			</div>
-			<div>
-				{users.map(user => {
-					return (
-						<div key={user.userId}>
-							<h2>{user.name}</h2>
-							<h2>{user.email}</h2>
-						</div>
-					);
-				})}
-			</div>
+			<Form />
+			<UserTable users={users} />
 		</StyledContainer>
 	);
 };
