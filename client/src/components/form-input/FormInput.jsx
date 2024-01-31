@@ -8,7 +8,8 @@ const FormInput = ({
 	type,
 	placeholder,
 	register,
-	errors
+	errors,
+	defaultValue
 }) => {
 	return (
 		<StyledDiv>
@@ -20,6 +21,7 @@ const FormInput = ({
 					name={name}
 					placeholder={placeholder}
 					{...register(name, FORM_VALIDATIONS[registerName])}
+					defaultValue={defaultValue}
 				/>
 			</StyledLabel>
 			<StyledSpanError>{errors?.[name]?.message}</StyledSpanError>

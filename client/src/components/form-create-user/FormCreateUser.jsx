@@ -11,6 +11,7 @@ const FormCreateUser = ({ setUsers }) => {
 	const {
 		handleSubmit,
 		register,
+		reset,
 		formState: { errors },
 		getValues
 	} = useForm();
@@ -19,7 +20,7 @@ const FormCreateUser = ({ setUsers }) => {
 		<>
 			<StyledForm
 				onSubmit={handleSubmit(() =>
-					formSubmit(getValues, setUsers, userImage)
+					formSubmit(getValues, setUsers, userImage, setUserImage, reset)
 				)}
 			>
 				<FormInput
@@ -52,11 +53,12 @@ const FormCreateUser = ({ setUsers }) => {
 				</div>
 				<div>
 					<StyledImg
-						src={userImage || '/public/assets/images/profile.png'}
+						src={userImage || '/assets/images/profile.png'}
 						alt='imagen del usuario'
 					/>
 
 					<button
+						type='button'
 						onClick={() =>
 							handleGenerateImage(getValues('gender'), setUserImage)
 						}
@@ -87,14 +89,15 @@ const createUser = async (getValues, setUsers, userImage) => {
 	}
 };
 
-const formSubmit = (getValues, setUsers, userImage) => {
-	createUser(getValues, setUsers, userImage);
-};
-
 //* genero imagen aleatoria del usuario a partir de su género
 const handleGenerateImage = (gender, setUserImage) => {
 	const imageUrl = generateRandomImage(gender);
 	setUserImage(imageUrl);
+};
+const formSubmit = (getValues, setUsers, userImage, setUserImage, reset) => {
+	createUser(getValues, setUsers, userImage);
+	reset();
+	setUserImage('/assets/images/profile.png');
 };
 
 export default FormCreateUser;

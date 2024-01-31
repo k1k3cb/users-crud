@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { URLS } from '../../constants/urls';
 import { deleteData } from '../../utils/api';
 import {
@@ -8,9 +9,8 @@ import {
 	StyledUserInfo
 } from './styles';
 
-const UserInfo = ({ users, setUsers,  setUserToEdit }) => {
-	// console.log('users desde infoUser', users);
-	// const [confirmDelete, setConfirmDelete] = useState(false);
+const UserInfo = ({ users, setUsers, setUserToEdit }) => {
+	const navigate = useNavigate();
 	return (
 		<div>
 			{users.map(user => (
@@ -27,7 +27,9 @@ const UserInfo = ({ users, setUsers,  setUserToEdit }) => {
 					</StyledUserInfo>
 					<StyledIcons>
 						<i>
-							<StyledIcon src='/public/assets/icons/eye_icon.svg' alt='' />
+							<button onClick={() => navigate('/userDetails', { state: user })}>
+								<StyledIcon src='/public/assets/icons/eye_icon.svg' alt='' />
+							</button>
 						</i>
 						<i>
 							<StyledIcon
@@ -41,7 +43,6 @@ const UserInfo = ({ users, setUsers,  setUserToEdit }) => {
 								src='/public/assets/icons/delete_icon.svg'
 								alt=''
 								onClick={() => deleteUser(user.UserId, setUsers)}
-								// onClick={() => handleDeleteClick()}
 							/>
 						</i>
 					</StyledIcons>
@@ -50,10 +51,6 @@ const UserInfo = ({ users, setUsers,  setUserToEdit }) => {
 		</div>
 	);
 };
-
-// const handleDeleteClick = setConfirmDelete => {
-// 	setConfirmDelete(true);
-// };
 
 const deleteUser = async (id, setUsers) => {
 	try {

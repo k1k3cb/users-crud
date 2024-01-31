@@ -9,7 +9,7 @@ import { StyledContainer } from './styles';
 
 const Main = () => {
 	const [users, setUsers] = useState([]);
-	const [userToEdit, setUserToEdit] = useState({});
+	const [userToEdit, setUserToEdit] = useState();
 
 	useEffect(() => {
 		getAllUsers(setUsers);
@@ -20,8 +20,8 @@ const Main = () => {
 	return (
 		<StyledContainer>
 			<div>
-				<FormCreateUser setUsers={setUsers} />
-				<br />
+				{!userToEdit &&(<FormCreateUser setUsers={setUsers} />)}
+				
 				{userToEdit && (
 					<FormUpdateUser
 						setUsers={setUsers}
